@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<title>Envión · IA para PyMEs</title>
+<meta name="description" content="Capacitación, consultoría e implementación de IA para PyMEs. Formamos a tu equipo, definimos qué conviene automatizar y lo dejamos funcionando.">
+<!--
+  CÓMO PERSONALIZAR ESTA PÁGINA
+  1. Nombre: buscar y reemplazar "Envión" por el nombre elegido.
+  2. Agenda (Google Calendar), WhatsApp, mail y destino del formulario: editar el objeto CONFIG al final del archivo.
+  3. Equipo: reemplazar los textos marcados [Completar] en la sección del equipo.
+  4. Logos de la franja "con las que trabajamos": archivos de un solo color en img/logos/. Para sumar uno, agregar un <li> en la sección .logos.
+  5. Estilo: seguir las reglas de DESIGN.md en la raíz del repo.
+  Fotos: carpeta img/, de Unsplash (licencia libre de Unsplash).
+-->
+<script>document.documentElement.classList.add("js");</script>
+<!-- Pixel de Meta (conjunto de datos "Envión - Web", portfolio Envión). Mide visitas (PageView), formularios enviados (Lead) y clics a la agenda (Contact). -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1643031510751518');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1643031510751518&ev=PageView&noscript=1"></noscript>
+<link rel="icon" href="img/marca/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/marca/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="img/marca/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+/* Tokens de DESIGN.md: crema + carbón + tarjetas blancas, un solo acento azul. Siempre en modo claro. */
+:root {
+  --canvas: #f5f1ec;
+  --surface: #ffffff;
+  --surface-2: #ebe7e1;
+  --ink: #111111;
+  --muted: #626260;
+  --line: #d3cec6;
+  --line-soft: #e6e1da;
+  --accent: #2346e8;
+  --accent-soft: #e4e8fb;
+  --on-primary: #ffffff;
+  --font: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: only light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3 { font-weight: 500; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(2rem, 1.2rem + 2.4vw, 3rem); line-height: 1.1; letter-spacing: -0.025em; }
+h3 { font-size: 1.375rem; line-height: 1.25; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+section { padding-block: clamp(64px, 9vw, 96px); }
+.eyebrow { font-size: 0.875rem; font-weight: 500; color: var(--accent); }
+.lead { font-size: 1.125rem; color: var(--muted); max-width: 60ch; }
+.head { display: grid; gap: 16px; max-width: 720px; margin-bottom: 48px; }
+.tile { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 12px; }
+.photo { border-radius: 16px; overflow: hidden; background: var(--surface-2); }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Botones: 8px de radio, nunca pastilla */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 12px 20px; border-radius: 8px;
+  font: 500 0.9375rem/1.2 var(--font); text-decoration: none; white-space: nowrap;
+  border: 1px solid transparent; cursor: pointer;
+  transition: transform .3s var(--ease), background-color .2s ease, border-color .2s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: scale(0.98); }
+.btn i { font-size: 1.15rem; }
+.btn-primary { background: var(--ink); color: var(--on-primary); }
+.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line); }
+.btn-secondary:hover { border-color: var(--ink); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Navegación */
+.nav-sentinel { position: absolute; top: 0; height: 1px; width: 1px; }
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--canvas) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent; transition: border-color .2s ease;
+}
+.site-header.scrolled { border-bottom-color: var(--line-soft); }
+.site-header .wrap { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 1.25rem; letter-spacing: -0.03em; }
+.brand .logo { height: 28px; width: auto; display: block; }
+.nav { display: flex; align-items: center; gap: 28px; font-size: 0.9375rem; }
+.nav a:not(.btn) { text-decoration: none; color: var(--muted); transition: color .2s ease; }
+.nav a:not(.btn):hover { color: var(--ink); }
+.header-end { display: flex; align-items: center; gap: 20px; }
+.nav-cta { min-height: 40px; padding: 9px 16px; }
+@media (max-width: 860px) { .nav { display: none; } .header-end { gap: 12px; } }
+@media (max-width: 480px) { .nav-cta { display: none; } }
+
+/* Selector de idioma: dos opciones en un riel, la activa en blanco */
+.lang { display: inline-flex; padding: 3px; gap: 2px; background: var(--surface-2); border-radius: 8px; }
+.lang button { font: 500 0.8125rem/1 var(--font); letter-spacing: 0.02em; color: var(--muted); background: transparent; border: 0; border-radius: 6px; padding: 8px 10px; min-width: 38px; cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+.lang button:hover { color: var(--ink); }
+.lang button[aria-pressed="true"] { background: var(--surface); color: var(--ink); }
+
+/* Hero: título a todo el ancho, debajo la propuesta a la izquierda y tres diferenciales a la derecha */
+.hero { padding-block: clamp(40px, 7vw, 88px) clamp(48px, 6vw, 72px); }
+.hero h1 { font-size: clamp(2.5rem, 1.1rem + 4.6vw, 4.5rem); line-height: 1.05; letter-spacing: -0.035em; max-width: 19ch; margin-top: 16px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-body { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 6vw, 96px); margin-top: clamp(32px, 4vw, 56px); align-items: start; }
+.hero-copy { display: grid; gap: 28px; padding-top: 16px; }
+.hero-copy .lead { font-size: 1.25rem; }
+.hero-facts { display: grid; border-top: 1px solid var(--line); }
+.hero-facts li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; align-items: center; padding-block: 18px; border-bottom: 1px solid var(--line-soft); font-size: 1.0625rem; font-weight: 500; }
+.hero-facts i { font-size: 1.4rem; color: var(--accent); }
+
+/* Franja de logos: quieta y centrada por defecto; el script la pone en movimiento (.is-moving) si no hay movimiento reducido */
+.logos { padding-block: clamp(28px, 4vw, 40px); border-block: 1px solid var(--line-soft); overflow: hidden; }
+.logos-title { font-size: 0.9375rem; line-height: 1.4; letter-spacing: 0; font-weight: 500; color: var(--muted); text-align: center; margin-bottom: 24px; }
+.marquee { display: flex; justify-content: center; }
+.marquee-track { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px 48px; padding-inline: 16px; }
+.marquee-track li { display: flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; opacity: 0.72; }
+.marquee-track img { width: 26px; height: 26px; object-fit: contain; }
+.marquee.is-moving { justify-content: flex-start; }
+.marquee.is-moving .marquee-track { flex-wrap: nowrap; flex-shrink: 0; justify-content: flex-start; padding-inline: 0 56px; gap: 56px; animation: marquee var(--dur, 40s) linear infinite; }
+.marquee.is-moving:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-100%); } }
+@media (max-width: 900px) { .hero-body { grid-template-columns: minmax(0, 1fr); } }
+
+/* Qué hacemos: la persona elige si ya usa IA y ve un solo camino de tres pasos */
+.picker { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+.picker-q { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.01em; }
+.seg { display: inline-flex; padding: 4px; gap: 4px; background: var(--surface-2); border-radius: 10px; }
+.seg button { font: 500 1rem/1 var(--font); color: var(--muted); background: transparent; border: 0; border-radius: 7px; padding: 12px 18px; min-height: 44px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; justify-content: center; white-space: nowrap; transition: background-color .2s ease, color .2s ease; }
+.seg button i { font-size: 1.15rem; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-selected="true"] { background: var(--surface); color: var(--ink); }
+.seg button[aria-selected="true"] i { color: var(--accent); }
+.route { padding: clamp(24px, 4vw, 48px); border-radius: 16px; }
+.route-panel { display: grid; gap: 36px; }
+.route-panel + .route-panel { margin-top: 56px; padding-top: 56px; border-top: 1px solid var(--line-soft); }
+.js .route-panel:not(.is-active) { display: none; }
+.js .route-panel + .route-panel { margin-top: 0; padding-top: 0; border-top: 0; }
+.route-intro { display: grid; gap: 8px; }
+.route-intro h3 { font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.125rem); letter-spacing: -0.02em; line-height: 1.15; }
+.route-intro p { color: var(--muted); font-size: 1.0625rem; }
+.timeline { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); position: relative; margin: 0; padding: 0; list-style: none; }
+.timeline::before { content: ""; position: absolute; top: 16px; left: 16px; right: 16px; height: 1px; background: var(--line); }
+.timeline li { position: relative; display: grid; gap: 8px; justify-items: start; align-content: start; }
+.timeline h4 { font-size: 1.125rem; font-weight: 500; line-height: 1.3; margin: 0; }
+.timeline p { color: var(--muted); }
+.step-num { width: 32px; height: 32px; margin-bottom: 8px; border-radius: 8px; display: grid; place-items: center; font-weight: 500; font-size: 0.9375rem; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); background: var(--surface); }
+.route-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-top: 28px; border-top: 1px solid var(--line-soft); }
+.route-gain { flex: 1 1 420px; display: flex; gap: 12px; align-items: baseline; padding: 16px 18px; border-radius: 8px; background: var(--accent-soft); }
+.route-gain i { color: var(--accent); flex: none; font-size: 1.1rem; transform: translateY(3px); }
+.route-gain b { font-weight: 500; }
+.paths-note { margin-top: 24px; display: flex; gap: 10px; align-items: baseline; color: var(--muted); font-size: 0.9375rem; max-width: 80ch; }
+.paths-note i { color: var(--accent); flex: none; transform: translateY(2px); }
+@media (prefers-reduced-motion: no-preference) {
+  .js .route-panel.is-active { animation: path-in .45s var(--ease); }
+  @keyframes path-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+@media (max-width: 860px) {
+  .timeline { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .timeline::before { display: none; }
+  .timeline li { grid-template-columns: 32px minmax(0, 1fr); column-gap: 16px; padding-bottom: 24px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li:not(:last-child)::after { content: ""; position: absolute; left: 16px; top: 32px; bottom: 0; width: 1px; background: var(--line); }
+  .timeline li > :not(.step-num) { grid-column: 2; }
+  .step-num { grid-row: 1 / span 2; margin: 0; }
+  .seg { width: 100%; }
+  .seg button { flex: 1; padding-inline: 10px; }
+}
+@media (max-width: 420px) { .seg button i { display: none; } }
+
+/* Contacto: texto a la izquierda, formulario en tarjeta a la derecha */
+.contact-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.contact-intro { display: grid; gap: 16px; }
+.contact-points { display: grid; gap: 12px; margin-top: 12px; }
+.contact-points li { display: flex; gap: 10px; align-items: baseline; }
+.contact-points i { color: var(--accent); flex: none; transform: translateY(2px); }
+.contact-points a { color: var(--accent); text-underline-offset: 3px; }
+.contact-form { padding: clamp(20px, 3vw, 32px); display: grid; gap: 20px; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.field { display: grid; gap: 6px; align-content: start; }
+.field-full { grid-column: 1 / -1; }
+.field label, .field legend { font-size: 0.875rem; font-weight: 500; }
+.field .opt { color: var(--muted); font-weight: 400; }
+.field input, .field textarea, .field select {
+  width: 100%; font: 400 1rem/1.4 var(--font); color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 12px 14px; min-height: 46px; transition: border-color .2s ease;
+}
+.field textarea { min-height: 96px; resize: vertical; }
+.field select { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; }
+.select { position: relative; }
+.select i { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
+.field input:hover, .field textarea:hover, .field select:hover { border-color: var(--muted); }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--ink); outline: none; }
+.field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.field-hint { font-size: 0.8125rem; color: var(--muted); }
+fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
+fieldset.field legend { padding: 0; margin-bottom: 8px; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choice { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 0.9375rem; transition: border-color .2s ease, background-color .2s ease; }
+.choice:hover { border-color: var(--muted); }
+.choice input { accent-color: var(--accent); width: 16px; height: 16px; min-height: 0; padding: 0; margin: 0; flex: none; }
+.choice:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.form-foot .btn[disabled] { opacity: .6; cursor: wait; }
+.form-status { font-size: 0.9375rem; color: var(--muted); }
+.form-status.ok { color: var(--ink); }
+@media (max-width: 900px) { .contact-layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) { .fields { grid-template-columns: minmax(0, 1fr); } }
+
+/* Ejemplos: carrusel de tarjetas con flechas; la respuesta "Con IA" va en serif cursiva */
+.examples-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 32px; }
+.examples-head .head { margin-bottom: 0; }
+.carousel-nav { display: flex; gap: 8px; flex: none; }
+.carousel-btn { width: 46px; height: 46px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: border-color .2s ease, opacity .2s ease, transform .3s var(--ease); }
+.carousel-btn i { font-size: 1.2rem; }
+.carousel-btn:hover:not(:disabled) { border-color: var(--ink); transform: translateY(-1px); }
+.carousel-btn:disabled { opacity: .35; cursor: default; }
+.track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 32px) / 3); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0; padding: 0; list-style: none; }
+.track::-webkit-scrollbar { display: none; }
+.example { scroll-snap-align: start; padding: 28px; display: grid; grid-template-rows: auto auto 1fr; gap: 20px; }
+.example-tag { display: inline-flex; gap: 10px; align-items: center; font-size: 1.0625rem; font-weight: 500; }
+.example-tag i { font-size: 1.4rem; color: var(--accent); }
+.example-label { display: block; font-size: 0.8125rem; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+.example-today p { color: var(--muted); }
+.example-ai { padding-top: 20px; border-top: 1px solid var(--line-soft); align-self: end; }
+.example-ai .example-label { color: var(--accent); }
+.example-ai p { font-family: var(--serif); font-style: italic; font-size: 1.375rem; line-height: 1.25; color: var(--ink); }
+.cases-note { margin-top: 20px; font-size: 0.875rem; color: var(--muted); }
+@media (max-width: 900px) { .track { grid-auto-columns: calc((100% - 16px) / 2); } }
+@media (max-width: 600px) {
+  .track { grid-auto-columns: 86%; }
+  .examples-head { flex-direction: column; align-items: start; }
+}
+
+/* Preguntas */
+.faq-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.faq-aside { display: grid; gap: 16px; }
+.faq-aside a { color: var(--accent); text-underline-offset: 3px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq details:first-child { border-top: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 22px; font-size: 1.0625rem; font-weight: 500; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary i { font-size: 1.25rem; color: var(--muted); transition: transform .3s var(--ease); flex: none; }
+.faq details[open] summary i { transform: rotate(45deg); color: var(--ink); }
+.faq details p { padding-bottom: 22px; color: var(--muted); max-width: 62ch; }
+@media (max-width: 900px) { .faq-layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* Cierre: banner blanco grande */
+.cta-banner { border-radius: 24px; padding: clamp(32px, 6vw, 72px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 64px); align-items: end; }
+.cta-banner h2 { max-width: 16ch; }
+.cta-copy { display: grid; gap: 20px; }
+.cta-side { display: grid; gap: 20px; }
+.contact { display: grid; gap: 10px; font-size: 0.9375rem; color: var(--muted); padding-top: 20px; border-top: 1px solid var(--line-soft); }
+.contact span { display: inline-flex; gap: 10px; align-items: center; }
+.contact i { font-size: 1.1rem; color: var(--ink); }
+@media (max-width: 900px) { .cta-banner { grid-template-columns: minmax(0, 1fr); align-items: start; } }
+
+/* Pie: marca, navegación, contacto y legales */
+.site-footer { border-top: 1px solid var(--line-soft); font-size: 0.9375rem; color: var(--muted); }
+.footer-main { display: grid; grid-template-columns: minmax(0, 5fr) repeat(3, minmax(0, 2fr)); gap: 32px; padding-block: clamp(40px, 6vw, 64px) 40px; }
+.footer-brand { display: grid; gap: 14px; align-content: start; max-width: 34ch; }
+.footer-brand .brand { color: var(--ink); }
+.footer-col { display: grid; gap: 12px; align-content: start; }
+.footer-col h2 { font-size: 0.875rem; font-weight: 500; color: var(--ink); letter-spacing: 0; line-height: 1.4; }
+.footer-col a { text-decoration: none; transition: color .2s ease; }
+.footer-col a:hover { color: var(--ink); }
+.footer-bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-block: 20px 32px; border-top: 1px solid var(--line-soft); font-size: 0.8125rem; }
+@media (max-width: 860px) { .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); } .footer-brand { grid-column: 1 / -1; } }
+@media (max-width: 420px) { .footer-main { grid-template-columns: minmax(0, 1fr); } }
+.form-legal { font-size: 0.8125rem; color: var(--muted); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-legal a { color: inherit; text-underline-offset: 3px; }
+
+/* Movimiento: entrada del hero y aparición al hacer scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise .8s var(--ease) both; animation-delay: calc(var(--i, 0) * 90ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(var(--i, 0) * 70ms); }
+  .js [data-reveal].in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<span class="nav-sentinel" aria-hidden="true"></span>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Envión, inicio" data-i18n-attr="aria-label:brand.home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284.07 64" class="logo" aria-hidden="true" focusable="false"><path fill-rule="evenodd" style="fill:var(--accent)" d="M14 0H50A14 14 0 0 1 64 14V50A14 14 0 0 1 50 64H14A14 14 0 0 1 0 50V14A14 14 0 0 1 14 0ZM8.73 51.89 A40 40 0 0 0 45.13 28.48 Q45.82 26.88 45.82 28.28 V51.89 ZM43.07 17.61 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0Z"/><path style="fill:var(--ink)" d="M88.32 54.72V9.28H118.91V16.52H96.64V28.36H118.14V35.51H96.64V47.48H119.42V54.72ZM125.15 54.72V20.54H132.56L132.88 30.13L131.88 29.73Q132.42 26.16 134 23.98Q135.59 21.8 137.91 20.79Q140.24 19.78 142.99 19.78Q146.76 19.78 149.34 21.43Q151.92 23.08 153.26 25.99Q154.6 28.9 154.6 32.74V54.72H146.41V35.38Q146.41 32.5 145.85 30.51Q145.29 28.52 143.99 27.48Q142.68 26.43 140.48 26.43Q137.19 26.43 135.26 28.73Q133.34 31.03 133.34 35.38V54.72ZM171.02 54.72 158.54 20.54H167.19L175.9 46.45L184.58 20.54H193.23L180.72 54.72ZM197.15 54.72V20.54H205.34V54.72ZM196.99 15.97V8.73H205.49V15.97ZM227.25 55.49Q222.2 55.49 218.41 53.29Q214.62 51.08 212.53 47.06Q210.44 43.03 210.44 37.63Q210.44 32.19 212.53 28.2Q214.62 24.2 218.41 21.99Q222.2 19.78 227.25 19.78Q232.31 19.78 236.08 21.99Q239.85 24.2 241.93 28.2Q244.02 32.19 244.02 37.63Q244.02 43.03 241.93 47.06Q239.85 51.08 236.08 53.29Q232.31 55.49 227.25 55.49ZM227.25 48.86Q231.21 48.86 233.38 45.89Q235.55 42.93 235.55 37.63Q235.55 32.36 233.38 29.38Q231.21 26.41 227.25 26.41Q223.3 26.41 221.11 29.38Q218.92 32.36 218.92 37.63Q218.92 42.93 221.11 45.89Q223.3 48.86 227.25 48.86ZM223.55 16.73 227.47 7.72H235.69L229.93 16.73ZM249.11 54.72V20.54H256.52L256.84 30.13L255.85 29.73Q256.38 26.16 257.97 23.98Q259.56 21.8 261.88 20.79Q264.2 19.78 266.96 19.78Q270.73 19.78 273.31 21.43Q275.89 23.08 277.23 25.99Q278.57 28.9 278.57 32.74V54.72H270.37V35.38Q270.37 32.5 269.82 30.51Q269.26 28.52 267.96 27.48Q266.65 26.43 264.45 26.43Q261.16 26.43 259.23 28.73Q257.31 31.03 257.31 35.38V54.72Z"/></svg>
+    </a>
+    <div class="header-end">
+      <nav class="nav" aria-label="Principal" data-i18n-attr="aria-label:nav.label">
+        <a href="#que-hacemos" data-i18n="nav.services">Qué hacemos</a>
+        <a href="#rubros" data-i18n="nav.industries">Ejemplos</a>
+        <a href="#preguntas" data-i18n="nav.faq">Preguntas</a>
+        <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+      </nav>
+      <div class="lang" role="group" aria-label="Idioma" data-i18n-attr="aria-label:lang.label">
+        <button type="button" data-lang="es" aria-pressed="true" lang="es" title="Español">ES</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en" title="English">EN</button>
+      </div>
+      <a class="btn btn-primary nav-cta" data-link="agenda" href="#contacto" data-i18n="cta.call">Agendá una llamada</a>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow rise" style="--i:0" data-i18n="hero.eyebrow">Capacitación e implementación de IA para PyMEs</span>
+      <h1 class="rise" style="--i:1" data-i18n="hero.title">El <em>envión</em> que tu PyME necesita para trabajar con IA</h1>
+      <div class="hero-body">
+        <div class="hero-copy">
+          <p class="lead rise" style="--i:2" data-i18n="hero.lead">Hacemos que la IA rinda en el día a día de tu empresa: formamos a tu equipo, te ayudamos a decidir qué conviene automatizar y lo dejamos funcionando.</p>
+          <div class="actions rise" style="--i:3">
+            <a class="btn btn-primary" data-link="agenda" href="#contacto"><i class="ph ph-calendar-check" aria-hidden="true"></i><span data-i18n="cta.call">Agendá una llamada</span></a>
+          </div>
+        </div>
+        <ul class="hero-facts rise" style="--i:4">
+          <li><i class="ph ph-sliders-horizontal" aria-hidden="true"></i><span data-i18n="hero.f1t">A la medida de lo que necesitás</span></li>
+          <li><i class="ph ph-briefcase" aria-hidden="true"></i><span data-i18n="hero.f2t">Sobre el trabajo real de tu equipo</span></li>
+          <li><i class="ph ph-key" aria-hidden="true"></i><span data-i18n="hero.f3t">Todo queda a nombre de tu empresa</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="logos" aria-labelledby="logos-titulo">
+    <h2 id="logos-titulo" class="logos-title wrap" data-i18n="logos.title">Herramientas y empresas con las que trabajamos</h2>
+    <div class="marquee">
+      <ul class="marquee-track">
+        <li><img src="img/logos/claude.svg" alt="" width="26" height="26">Claude</li>
+        <li><img src="img/logos/chatgpt.svg" alt="" width="26" height="26">ChatGPT</li>
+        <li><img src="img/logos/gemini.svg" alt="" width="26" height="26">Gemini</li>
+        <li><img src="img/logos/lovable.svg" alt="" width="26" height="26">Lovable</li>
+        <li><img src="img/logos/higgsfield.svg" alt="" width="26" height="26">Higgsfield</li>
+        <li><img src="img/logos/lemon.svg" alt="" width="26" height="26">Lemon</li>
+        <li><img src="img/logos/soloduenos.png" alt="" width="26" height="26">Solodueños</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="que-hacemos" aria-labelledby="servicios-titulo">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <h2 id="servicios-titulo" data-i18n="services.title">Estés donde estés, te damos el envión</h2>
+        <p class="lead" data-i18n="services.lead">Empieces de cero o ya tengas algo andando, te ayudamos a trabajar mejor y con menos tareas a mano.</p>
+      </div>
+      <div data-reveal style="--i:1">
+        <div class="picker">
+          <p class="picker-q" id="camino-pregunta" data-i18n="services.q">¿Ya usan IA en tu empresa?</p>
+          <div class="seg" role="tablist" aria-labelledby="camino-pregunta">
+            <button type="button" role="tab" id="tab-camino-no" aria-controls="camino-no" aria-selected="true" tabindex="0"><i class="ph ph-plant" aria-hidden="true"></i><span data-i18n="services.tabNo">Todavía no</span></button>
+            <button type="button" role="tab" id="tab-camino-si" aria-controls="camino-si" aria-selected="false" tabindex="-1"><i class="ph ph-trend-up" aria-hidden="true"></i><span data-i18n="services.tabYes">Sí, ya la usamos</span></button>
+          </div>
+        </div>
+        <div class="tile route">
+          <div class="route-panel is-active" id="camino-no" role="tabpanel" aria-labelledby="tab-camino-no">
+            <div class="route-intro">
+              <h3 data-i18n="pathNo.t">Te acompañamos desde el primer paso</h3>
+              <p data-i18n="pathNo.d">No hace falta saber nada de tecnología.</p>
+            </div>
+            <ol class="timeline">
+              <li><span class="step-num" aria-hidden="true">1</span><h4 data-i18n="pathNo.s1t">Entendemos tu negocio</h4><p data-i18n="pathNo.s1d">Vemos cómo trabajan y dónde se pierde tiempo.</p></li>
+              <li><span class="step-num" aria-hidden="true">2</span><h4 data-i18n="pathNo.s2t">Tu equipo se suma</h4><p data-i18n="pathNo.s2d">Aprenden a usar las herramientas en su trabajo de todos los días.</p></li>
+              <li><span class="step-num" aria-hidden="true">3</span><h4 data-i18n="pathNo.s3t">Lo dejamos funcionando</h4><p data-i18n="pathNo.s3d">Lo repetitivo pasa a hacerse solo.</p></li>
+            </ol>
+            <div class="route-foot">
+              <p class="route-gain"><i class="ph ph-flag-checkered" aria-hidden="true"></i><span data-i18n="pathNo.gain"><b>Lo que ganás:</b> más tiempo para lo importante, menos tareas a mano.</span></p>
+              <a class="btn btn-primary" data-link="agenda" href="#contacto"><i class="ph ph-calendar-check" aria-hidden="true"></i><span data-i18n="cta.call">Agendá una llamada</span></a>
+            </div>
+          </div>
+          <div class="route-panel" id="camino-si" role="tabpanel" aria-labelledby="tab-camino-si">
+            <div class="route-intro">
+              <h3 data-i18n="pathYes.t">Sacale todo el jugo a lo que ya tenés</h3>
+              <p data-i18n="pathYes.d">Ya dieron el primer paso. Ahora que se note en el negocio.</p>
+            </div>
+            <ol class="timeline">
+              <li><span class="step-num" aria-hidden="true">1</span><h4 data-i18n="pathYes.s1t">Ordenamos lo que ya usan</h4><p data-i18n="pathYes.s1d">Qué sirve, qué sobra y qué falta.</p></li>
+              <li><span class="step-num" aria-hidden="true">2</span><h4 data-i18n="pathYes.s2t">Tu equipo sube de nivel</h4><p data-i18n="pathYes.s2d">Pasan de hacerle preguntas a delegarle tareas.</p></li>
+              <li><span class="step-num" aria-hidden="true">3</span><h4 data-i18n="pathYes.s3t">Lo conectamos a tu negocio</h4><p data-i18n="pathYes.s3d">Con lo que ya usan, para que funcione solo.</p></li>
+            </ol>
+            <div class="route-foot">
+              <p class="route-gain"><i class="ph ph-flag-checkered" aria-hidden="true"></i><span data-i18n="pathYes.gain"><b>Lo que ganás:</b> deja de ser algo de cada uno y trabaja para toda la empresa.</span></p>
+              <a class="btn btn-primary" data-link="agenda" href="#contacto"><i class="ph ph-calendar-check" aria-hidden="true"></i><span data-i18n="cta.call">Agendá una llamada</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="paths-note" data-reveal><i class="ph ph-puzzle-piece" aria-hidden="true"></i><span data-i18n="services.note">Capacitación, consultoría e implementación: tomás todo o solo lo que te hace falta.</span></p>
+    </div>
+  </section>
+
+  <section id="contacto" aria-labelledby="contacto-titulo">
+    <div class="wrap contact-layout">
+      <div class="contact-intro" data-reveal>
+        <h2 id="contacto-titulo" data-i18n="contact.title">Contanos qué necesitás</h2>
+        <p class="lead" data-i18n="contact.lead">Dejanos tus datos y te respondemos con una propuesta para empezar.</p>
+        <ul class="contact-points">
+          <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="contact.p1">Sin costo ni compromiso</span></li>
+          <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="contact.p2">Te traemos 3 ideas pensadas para tu rubro</span></li>
+          <li><i class="ph ph-check" aria-hidden="true"></i><span data-i18n="contact.p3">Completarlo lleva menos de un minuto</span></li>
+        </ul>
+      </div>
+      <!-- Cada campo sirve para vender: rubro y tamaño para priorizar y preparar la llamada,
+           "qué resolver primero" para abrir la conversación con el dolor del cliente,
+           y "cómo nos conociste" para saber qué canal trae clientes. -->
+      <form class="tile contact-form" id="contact-form" data-reveal>
+        <div class="fields">
+          <div class="field"><label for="f-nombre" data-i18n="form.name">Nombre</label><input id="f-nombre" name="nombre" autocomplete="name" required></div>
+          <div class="field"><label for="f-empresa" data-i18n="form.company">Empresa</label><input id="f-empresa" name="empresa" autocomplete="organization" required></div>
+          <div class="field"><label for="f-email" data-i18n="form.email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="f-tel" data-i18n="form.phone">Teléfono o WhatsApp <span class="opt">(opcional)</span></label><input id="f-tel" name="telefono" type="tel" autocomplete="tel"></div>
+          <div class="field">
+            <label for="f-rubro" data-i18n="form.industry">Rubro</label>
+            <div class="select">
+              <select id="f-rubro" name="rubro" required>
+                <option value="" data-i18n="form.choose">Elegí una opción</option>
+                <option value="Estudio contable" data-i18n="form.ind.acc">Estudio contable</option>
+                <option value="Inmobiliaria" data-i18n="form.ind.re">Inmobiliaria</option>
+                <option value="Distribuidora o mayorista" data-i18n="form.ind.dist">Distribuidora o mayorista</option>
+                <option value="Clínica o consultorio" data-i18n="form.ind.cli">Clínica o consultorio</option>
+                <option value="Taller mecánico" data-i18n="form.ind.car">Taller mecánico</option>
+                <option value="Comercio" data-i18n="form.ind.shop">Comercio</option>
+                <option value="Servicios profesionales" data-i18n="form.ind.pro">Servicios profesionales</option>
+                <option value="Otro" data-i18n="form.other">Otro</option>
+              </select>
+              <i class="ph ph-caret-down" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-origen" data-i18n="form.source">¿Cómo nos conociste? <span class="opt">(opcional)</span></label>
+            <div class="select">
+              <select id="f-origen" name="origen">
+                <option value="" data-i18n="form.choose">Elegí una opción</option>
+                <option value="Recomendación" data-i18n="form.s1">Me lo recomendaron</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Google" data-i18n="form.s2">Buscando en Google</option>
+                <option value="Evento o charla" data-i18n="form.s3">Un evento o charla</option>
+                <option value="Otro" data-i18n="form.other">Otro</option>
+              </select>
+              <i class="ph ph-caret-down" aria-hidden="true"></i>
+            </div>
+          </div>
+          <fieldset class="field field-full">
+            <legend data-i18n="form.size">Personas en la empresa</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="tamano" value="1 a 10" required><span data-i18n="form.size1">1 a 10</span></label>
+              <label class="choice"><input type="radio" name="tamano" value="11 a 50"><span data-i18n="form.size2">11 a 50</span></label>
+              <label class="choice"><input type="radio" name="tamano" value="51 a 200"><span data-i18n="form.size3">51 a 200</span></label>
+              <label class="choice"><input type="radio" name="tamano" value="Más de 200"><span data-i18n="form.size4">Más de 200</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="field field-full">
+            <legend data-i18n="form.priority">¿Qué te gustaría resolver primero?</legend>
+            <div class="choices">
+              <label class="choice"><input type="checkbox" name="prioridad" value="Responder consultas más rápido"><span data-i18n="form.p1">Responder consultas más rápido</span></label>
+              <label class="choice"><input type="checkbox" name="prioridad" value="Dejar de cargar datos a mano"><span data-i18n="form.p2">Dejar de cargar datos a mano</span></label>
+              <label class="choice"><input type="checkbox" name="prioridad" value="Vender más y seguir mejor a los clientes"><span data-i18n="form.p3">Vender más y seguir mejor a los clientes</span></label>
+              <label class="choice"><input type="checkbox" name="prioridad" value="Que el equipo aprenda a usar IA"><span data-i18n="form.p4">Que el equipo aprenda a usar IA</span></label>
+              <label class="choice"><input type="checkbox" name="prioridad" value="Todavía no sé, quiero ideas"><span data-i18n="form.p5">Todavía no sé, quiero ideas</span></label>
+            </div>
+          </fieldset>
+          <div class="field field-full"><label for="f-mensaje" data-i18n="form.msg">¿Algo más que quieras contarnos? <span class="opt">(opcional)</span></label><textarea id="f-mensaje" name="mensaje" placeholder="Por ejemplo: respondemos las mismas consultas todo el día por WhatsApp" data-i18n-attr="placeholder:form.ph"></textarea></div>
+        </div>
+        <!-- Campo trampa para bots: invisible para las personas. Si llega completo, el script lo descarta. -->
+        <div class="hp" aria-hidden="true"><label for="f-sitio">Sitio web</label><input id="f-sitio" name="sitio_web" tabindex="-1" autocomplete="off"></div>
+        <div class="form-foot">
+          <button class="btn btn-primary" type="submit"><i class="ph ph-paper-plane-tilt" aria-hidden="true"></i><span data-i18n="form.submit">Enviar consulta</span></button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </div>
+        <p class="form-legal" data-i18n="form.legal">Usamos tus datos solo para responder tu consulta. Más información en la <a href="terminos.html#privacidad">política de privacidad</a>.</p>
+      </form>
+    </div>
+  </section>
+
+  <section id="rubros" aria-labelledby="rubros-titulo">
+    <div class="wrap">
+      <div class="examples-head" data-reveal>
+        <div class="head">
+          <h2 id="rubros-titulo" data-i18n="ind.title">Lo que la IA ya puede hacer en pequeñas y medianas empresas</h2>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" type="button" data-dir="-1" aria-controls="ejemplos" aria-label="Ejemplo anterior" data-i18n-attr="aria-label:ind.prev"><i class="ph ph-arrow-left" aria-hidden="true"></i></button>
+          <button class="carousel-btn" type="button" data-dir="1" aria-controls="ejemplos" aria-label="Ejemplo siguiente" data-i18n-attr="aria-label:ind.next"><i class="ph ph-arrow-right" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <ul class="track" id="ejemplos" aria-label="Ejemplos por rubro" data-i18n-attr="aria-label:ind.list" tabindex="0" data-reveal>
+        <li class="tile example">
+          <span class="example-tag"><i class="ph ph-calculator" aria-hidden="true"></i><span data-i18n="ind.acc">Estudios contables</span></span>
+          <div class="example-today"><span class="example-label" data-i18n="ind.today">Hoy</span><p data-i18n="ind.acc.today">Todos los meses hay que perseguir a cada cliente para que mande sus facturas, cargarlas a mano y contestar mil veces cuánto paga de monotributo y cuándo vence.</p></div>
+          <div class="example-ai"><span class="example-label" data-i18n="ind.ai">Con IA</span><p data-i18n="ind.acc.ai">Un asistente pide los comprobantes, lee las facturas de ARCA y las carga solo, y le avisa a cada cliente su vencimiento y su monto.</p></div>
+        </li>
+        <li class="tile example">
+          <span class="example-tag"><i class="ph ph-house-line" aria-hidden="true"></i><span data-i18n="ind.re">Inmobiliarias</span></span>
+          <div class="example-today"><span class="example-label" data-i18n="ind.today">Hoy</span><p data-i18n="ind.re.today">Las consultas de Zonaprop y Argenprop llegan de noche y el fin de semana, se contestan tarde y la mitad no tiene garantía ni presupuesto.</p></div>
+          <div class="example-ai"><span class="example-label" data-i18n="ind.ai">Con IA</span><p data-i18n="ind.re.ai">Un agente responde al instante con precio, expensas y requisitos, filtra a quien tiene garantía y le agenda la visita.</p></div>
+        </li>
+        <li class="tile example">
+          <span class="example-tag"><i class="ph ph-wrench" aria-hidden="true"></i><span data-i18n="ind.car">Talleres mecánicos</span></span>
+          <div class="example-today"><span class="example-label" data-i18n="ind.today">Hoy</span><p data-i18n="ind.car.today">Los clientes llaman todo el día para saber si el auto está listo, y cada presupuesto se arma buscando el precio de cada repuesto.</p></div>
+          <div class="example-ai"><span class="example-label" data-i18n="ind.ai">Con IA</span><p data-i18n="ind.car.ai">El cliente recibe por WhatsApp el estado del auto y el presupuesto para aprobar, y un aviso cuando le toca el próximo service.</p></div>
+        </li>
+        <li class="tile example">
+          <span class="example-tag"><i class="ph ph-package" aria-hidden="true"></i><span data-i18n="ind.dist">Distribuidoras B2B</span></span>
+          <div class="example-today"><span class="example-label" data-i18n="ind.today">Hoy</span><p data-i18n="ind.dist.today">Los pedidos llegan por WhatsApp como audios, fotos de listas escritas a mano o mensajes sueltos, y alguien los pasa uno por uno al sistema.</p></div>
+          <div class="example-ai"><span class="example-label" data-i18n="ind.ai">Con IA</span><p data-i18n="ind.dist.ai">Cada pedido se entiende aunque venga en audio o en foto, se carga solo y el cliente recibe la confirmación con stock y precio de lista.</p></div>
+        </li>
+        <li class="tile example">
+          <span class="example-tag"><i class="ph ph-first-aid-kit" aria-hidden="true"></i><span data-i18n="ind.cli">Clínicas y consultorios</span></span>
+          <div class="example-today"><span class="example-label" data-i18n="ind.today">Hoy</span><p data-i18n="ind.cli.today">La recepción contesta todo el día qué obras sociales y prepagas atienden, confirma turnos por teléfono y pierde horas por pacientes que no vienen.</p></div>
+          <div class="example-ai"><span class="example-label" data-i18n="ind.ai">Con IA</span><p data-i18n="ind.cli.ai">Un asistente da turnos por WhatsApp, confirma el día anterior con las indicaciones de preparación y ofrece el hueco a otro paciente si alguien cancela.</p></div>
+        </li>
+      </ul>
+      <p class="cases-note" data-i18n="ind.note">Son ejemplos de lo que solemos encontrar. En la primera llamada vemos cuáles aplican a tu empresa.</p>
+    </div>
+  </section>
+
+  <section id="preguntas" aria-labelledby="faq-titulo">
+    <div class="wrap faq-layout">
+      <div class="faq-aside" data-reveal>
+        <span class="eyebrow" data-i18n="faq.eyebrow">Preguntas frecuentes</span>
+        <h2 id="faq-titulo" data-i18n="faq.title">Lo que nos preguntan antes de arrancar</h2>
+        <p class="lead" data-i18n="faq.lead">¿Te queda otra duda? <a href="#contacto">Escribinos desde el formulario</a>.</p>
+      </div>
+      <!-- Preguntas ordenadas según las dudas más comunes de las PyMEs sobre IA (encuestas de adopción 2025-2026). -->
+      <div class="faq" data-reveal>
+        <details>
+          <summary><span data-i18n="faq.q1">No sabemos nada de IA. ¿Por dónde empezamos?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a1">Es la situación más común, y no hace falta saber nada para arrancar. En la primera llamada vemos cómo trabaja tu equipo y elegimos una o dos tareas que se repiten mucho y son fáciles de resolver. Empezar por algo chico permite ver resultados rápido antes de invertir más.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q2">¿Necesitamos a alguien técnico en el equipo?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a2">No. Usamos herramientas sin código y capacitamos a 1 o 2 personas de tu equipo para que puedan usar, mantener y ajustar lo que construimos.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q3">¿Es seguro? ¿Qué pasa con los datos de mi empresa y de mis clientes?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a3">Usamos cuentas empresariales que no entrenan modelos con tu información, definimos con vos qué datos no se suben y dejamos todas las cuentas a nombre de tu empresa. Firmamos un acuerdo de confidencialidad antes de ver cualquier dato.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q4">¿La IA va a reemplazar a mi equipo?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a4">La usamos para sacarle a tu equipo las tareas repetitivas, como cargar datos, contestar las mismas consultas o armar reportes. Así le queda más tiempo para atender clientes, vender y tomar decisiones. Las personas siguen a cargo y revisan lo que hace la IA.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q5">¿Cuánto cuesta?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a5">Depende de qué combines y del alcance. Después de la primera llamada te mandamos una propuesta con precio cerrado, sin sorpresas. Se puede empezar por algo acotado y crecer según los resultados. Cotizamos en dólares, se puede pagar en pesos al tipo de cambio del día y emitimos factura.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q6">¿Cuánto tarda en verse un resultado?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a6">Una capacitación práctica deja algo funcionando el mismo día. Una implementación típica lleva de 2 a 8 semanas, según cuántos procesos y sistemas haya que conectar.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q7">¿Funciona con las herramientas que ya usamos?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a7">En la mayoría de los casos, sí. Trabajamos con planillas, mail, WhatsApp, CRM y sistemas de gestión que ya tengas. No hace falta cambiar de sistema para empezar.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q8">¿Qué pasa si la IA se equivoca?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a8">Por eso diseñamos cada solución con controles: la IA propone y una persona aprueba donde hace falta, sobre todo con clientes o con plata. Antes de dejar algo funcionando lo probamos con casos reales de tu empresa.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q9">Ya usamos ChatGPT. ¿Para qué necesitamos esto?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a9">La mayoría de los equipos lo usa para tareas sueltas y cada uno a su manera. Nosotros lo llevamos a procesos completos, con reglas claras y automatizaciones que funcionan solas.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq.q10">¿Qué pasa cuando termina el proyecto?</span><i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p data-i18n="faq.a10">Todo queda a nombre de tu empresa y tu equipo sabe usarlo. Si querés, seguimos con un acompañamiento mensual para ajustes y mejoras, sin permanencia mínima. Trabajamos online con empresas de todo el país.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="agendar" aria-labelledby="cierre-titulo">
+    <div class="wrap">
+      <div class="tile cta-banner" data-reveal>
+        <div class="cta-copy">
+          <h2 id="cierre-titulo" data-i18n="close.title">Empezá con 30 minutos y 3 ideas concretas</h2>
+          <p class="lead" data-i18n="close.lead">Contanos cómo trabaja tu equipo y te mostramos qué se puede resolver con IA en tu empresa. Por videollamada, sin costo y sin compromiso.</p>
+        </div>
+        <div class="cta-side">
+          <div class="actions">
+            <a class="btn btn-primary" data-link="agenda" href="#contacto"><i class="ph ph-calendar-check" aria-hidden="true"></i><span data-i18n="cta.call">Agendá una llamada</span></a>
+          </div>
+          <div class="contact">
+            <span><i class="ph ph-envelope-simple" aria-hidden="true"></i><span data-text="email">somosenvionai@gmail.com</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-main">
+    <div class="footer-brand">
+      <a class="brand" href="#inicio" aria-label="Envión, inicio" data-i18n-attr="aria-label:brand.home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284.07 64" class="logo" aria-hidden="true" focusable="false"><path fill-rule="evenodd" style="fill:var(--accent)" d="M14 0H50A14 14 0 0 1 64 14V50A14 14 0 0 1 50 64H14A14 14 0 0 1 0 50V14A14 14 0 0 1 14 0ZM8.73 51.89 A40 40 0 0 0 45.13 28.48 Q45.82 26.88 45.82 28.28 V51.89 ZM43.07 17.61 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0Z"/><path style="fill:var(--ink)" d="M88.32 54.72V9.28H118.91V16.52H96.64V28.36H118.14V35.51H96.64V47.48H119.42V54.72ZM125.15 54.72V20.54H132.56L132.88 30.13L131.88 29.73Q132.42 26.16 134 23.98Q135.59 21.8 137.91 20.79Q140.24 19.78 142.99 19.78Q146.76 19.78 149.34 21.43Q151.92 23.08 153.26 25.99Q154.6 28.9 154.6 32.74V54.72H146.41V35.38Q146.41 32.5 145.85 30.51Q145.29 28.52 143.99 27.48Q142.68 26.43 140.48 26.43Q137.19 26.43 135.26 28.73Q133.34 31.03 133.34 35.38V54.72ZM171.02 54.72 158.54 20.54H167.19L175.9 46.45L184.58 20.54H193.23L180.72 54.72ZM197.15 54.72V20.54H205.34V54.72ZM196.99 15.97V8.73H205.49V15.97ZM227.25 55.49Q222.2 55.49 218.41 53.29Q214.62 51.08 212.53 47.06Q210.44 43.03 210.44 37.63Q210.44 32.19 212.53 28.2Q214.62 24.2 218.41 21.99Q222.2 19.78 227.25 19.78Q232.31 19.78 236.08 21.99Q239.85 24.2 241.93 28.2Q244.02 32.19 244.02 37.63Q244.02 43.03 241.93 47.06Q239.85 51.08 236.08 53.29Q232.31 55.49 227.25 55.49ZM227.25 48.86Q231.21 48.86 233.38 45.89Q235.55 42.93 235.55 37.63Q235.55 32.36 233.38 29.38Q231.21 26.41 227.25 26.41Q223.3 26.41 221.11 29.38Q218.92 32.36 218.92 37.63Q218.92 42.93 221.11 45.89Q223.3 48.86 227.25 48.86ZM223.55 16.73 227.47 7.72H235.69L229.93 16.73ZM249.11 54.72V20.54H256.52L256.84 30.13L255.85 29.73Q256.38 26.16 257.97 23.98Q259.56 21.8 261.88 20.79Q264.2 19.78 266.96 19.78Q270.73 19.78 273.31 21.43Q275.89 23.08 277.23 25.99Q278.57 28.9 278.57 32.74V54.72H270.37V35.38Q270.37 32.5 269.82 30.51Q269.26 28.52 267.96 27.48Q266.65 26.43 264.45 26.43Q261.16 26.43 259.23 28.73Q257.31 31.03 257.31 35.38V54.72Z"/></svg>
+      </a>
+      <p data-i18n="footer.tagline">Capacitación, consultoría e implementación de IA para PyMEs.</p>
+    </div>
+    <nav class="footer-col" aria-labelledby="pie-sitio">
+      <h2 id="pie-sitio" data-i18n="footer.site">Sitio</h2>
+      <a href="#que-hacemos" data-i18n="nav.services">Qué hacemos</a>
+      <a href="#rubros" data-i18n="nav.industries">Ejemplos</a>
+      <a href="#preguntas" data-i18n="nav.faq">Preguntas</a>
+      <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+    </nav>
+    <div class="footer-col">
+      <h2 data-i18n="footer.contact">Contacto</h2>
+      <a data-text="email" data-link="email" href="mailto:somosenvionai@gmail.com">somosenvionai@gmail.com</a>
+      <a data-link="agenda" href="#contacto" data-i18n="cta.call">Agendá una llamada</a>
+      <span data-i18n="footer.location">Buenos Aires, Argentina</span>
+    </div>
+    <nav class="footer-col" aria-labelledby="pie-legal">
+      <h2 id="pie-legal" data-i18n="footer.legal">Legales</h2>
+      <a href="terminos.html" data-i18n="footer.terms">Términos y condiciones</a>
+      <a href="terminos.html#privacidad" data-i18n="footer.privacy">Política de privacidad</a>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">
+    <span data-i18n="footer.rights">© 2026 Envión. Todos los derechos reservados.</span>
+    <span data-i18n="footer.made">Hecho en Argentina</span>
+  </div>
+</footer>
+
+<script>
+/* Editar estos datos cuando estén definidos. Si la agenda queda vacía, el botón lleva al formulario de contacto. */
+const CONFIG = {
+  agenda: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ3en5acEqtaJskP9Qdo-WiWiYH1boa-wqFx0SXEejxrPFqFWHy6arbCrba-o9IInv9lYG1UgTcC", // link de la agenda de citas de Google Calendar, ej: "https://calendar.app.google/xxxx"
+  email: "somosenvionai@gmail.com",
+  formulario: "https://script.google.com/macros/s/AKfycbw7EYC-qrmkvhxRuPaqZwrMam6PtHm2QdSQJoJoK18ndsrDge1sXMaxR2IFceOhqVeBog/exec" // script de Google que guarda cada consulta en la planilla "Consultas web · Envión" (ver automatizaciones/formulario-a-sheets.gs). Vacío: abre un mail ya escrito a CONFIG.email
+};
+
+/* Textos en inglés. Cada clave corresponde a un data-i18n del HTML; el español vive en el HTML. */
+const EN = {
+  "meta.title": "Envión · AI for small and midsize businesses",
+  "meta.desc": "AI training, consulting and implementation for small and midsize businesses. We train your team, help you decide what to automate and get it running.",
+  "brand.home": "Envión, home",
+  "nav.label": "Main",
+  "nav.services": "What we do",
+  "nav.industries": "Examples",
+  "nav.faq": "FAQ",
+  "nav.contact": "Contact",
+  "lang.label": "Language",
+  "cta.call": "Book a call",
+  "hero.eyebrow": "AI training and implementation for small and midsize businesses",
+  "hero.title": "The <em>boost</em> your business needs to work with AI",
+  "hero.lead": "We make AI pay off in your company's day-to-day work: we train your team, help you decide what's worth automating and get it up and running.",
+  "hero.f1t": "Tailored to what you need",
+  "hero.f2t": "Built on your team's real work",
+  "hero.f3t": "Everything stays in your company's name",
+  "logos.title": "Tools and companies we work with",
+  "services.title": "Wherever you are, we give you the boost",
+  "services.lead": "Whether you're starting from scratch or already have something running, we help you work better with less manual work.",
+  "services.q": "Does your company already use AI?",
+  "services.tabNo": "Not yet",
+  "services.tabYes": "Yes, we use it",
+  "services.note": "Training, consulting and implementation: take all of it or just what you need.",
+  "pathNo.t": "We're with you from the first step",
+  "pathNo.d": "No tech knowledge needed.",
+  "pathNo.s1t": "We get to know your business",
+  "pathNo.s1d": "We look at how you work and where time gets lost.",
+  "pathNo.s2t": "Your team gets on board",
+  "pathNo.s2d": "They learn to use the tools in their everyday work.",
+  "pathNo.s3t": "We leave it up and running",
+  "pathNo.s3d": "Repetitive work starts doing itself.",
+  "pathNo.gain": "<b>What you gain:</b> more time for what matters, less manual work.",
+  "pathYes.t": "Get the most out of what you already have",
+  "pathYes.d": "You've taken the first step. Now let it show in the business.",
+  "pathYes.s1t": "We sort out what you already use",
+  "pathYes.s1d": "What works, what's extra and what's missing.",
+  "pathYes.s2t": "Your team levels up",
+  "pathYes.s2d": "From asking it questions to handing it tasks.",
+  "pathYes.s3t": "We connect it to your business",
+  "pathYes.s3d": "With what you already use, so it runs on its own.",
+  "pathYes.gain": "<b>What you gain:</b> it stops being each person's thing and works for the whole company.",
+  "contact.title": "Tell us what you need",
+  "contact.lead": "Leave your details and we'll get back to you with a proposal to get started.",
+  "contact.p1": "Free, no commitment",
+  "contact.p2": "We bring you 3 ideas designed for your industry",
+  "contact.p3": "Takes less than a minute to fill in",
+  "form.name": "Name",
+  "form.company": "Company",
+  "form.email": "Email",
+  "form.phone": "Phone or WhatsApp <span class=\"opt\">(optional)</span>",
+  "form.industry": "Industry",
+  "form.choose": "Choose an option",
+  "form.ind.acc": "Accounting firm",
+  "form.ind.re": "Real estate agency",
+  "form.ind.dist": "Distributor or wholesaler",
+  "form.ind.cli": "Clinic or medical office",
+  "form.ind.car": "Mechanic shop",
+  "form.ind.shop": "Retail store",
+  "form.ind.pro": "Professional services",
+  "form.other": "Other",
+  "form.size": "People in the company",
+  "form.size1": "1 to 10",
+  "form.size2": "11 to 50",
+  "form.size3": "51 to 200",
+  "form.size4": "More than 200",
+  "form.priority": "What would you like to solve first?",
+  "form.p1": "Answer inquiries faster",
+  "form.p2": "Stop entering data by hand",
+  "form.p3": "Sell more and follow up better with customers",
+  "form.p4": "Get the team using AI",
+  "form.p5": "Not sure yet, I want ideas",
+  "form.msg": "Anything else you'd like to tell us? <span class=\"opt\">(optional)</span>",
+  "form.ph": "For example: we answer the same questions on WhatsApp all day",
+  "form.source": "How did you hear about us? <span class=\"opt\">(optional)</span>",
+  "form.s1": "Someone recommended you",
+  "form.s2": "Searching on Google",
+  "form.s3": "An event or talk",
+  "form.submit": "Send inquiry",
+  "form.legal": "We only use your details to reply to your inquiry. More information in our <a href=\"terminos.html#privacidad\">privacy policy</a> (in Spanish).",
+  "ind.title": "What AI can already do for small and midsize businesses",
+  "ind.prev": "Previous example",
+  "ind.next": "Next example",
+  "ind.list": "Examples by industry",
+  "ind.acc": "Accounting firms",
+  "ind.re": "Real estate agencies",
+  "ind.car": "Mechanic shops",
+  "ind.dist": "B2B distributors",
+  "ind.cli": "Clinics and medical offices",
+  "ind.today": "Today",
+  "ind.ai": "With AI",
+  "ind.acc.today": "Every month you chase each client for their invoices, enter them by hand and answer, again and again, how much tax they owe and when it's due.",
+  "ind.acc.ai": "An assistant requests the receipts, reads the invoices from the tax agency and enters them, and tells each client their due date and amount.",
+  "ind.re.today": "Inquiries from property portals arrive at night and on weekends, get answered late, and half of them have no guarantor or budget.",
+  "ind.re.ai": "An agent replies instantly with price, fees and requirements, screens for a guarantor and books the viewing.",
+  "ind.car.today": "Customers call all day to ask if their car is ready, and every quote means looking up the price of each part.",
+  "ind.car.ai": "Customers get their car's status and the quote to approve on WhatsApp, plus a reminder when their next service is due.",
+  "ind.dist.today": "Orders come in on WhatsApp as voice notes, photos of handwritten lists or scattered messages, and someone types them into the system one by one.",
+  "ind.dist.ai": "Every order is understood even as a voice note or photo, entered automatically, and the customer gets a confirmation with stock and list price.",
+  "ind.cli.today": "The front desk spends all day answering which insurance plans are accepted, confirming appointments by phone and losing hours to no-shows.",
+  "ind.cli.ai": "An assistant books appointments on WhatsApp, confirms the day before with preparation instructions and offers the slot to another patient if someone cancels.",
+  "ind.note": "These are examples of what we usually find. On the first call we'll see which ones apply to your company.",  "faq.eyebrow": "Frequently asked questions",
+  "faq.title": "What people ask us before getting started",
+  "faq.lead": "Still have questions? <a href=\"#contacto\">Write to us through the form</a>.",
+  "faq.q1": "We know nothing about AI. Where do we start?",
+  "faq.a1": "That's the most common situation, and you don't need to know anything to get started. On the first call we look at how your team works and pick one or two tasks that repeat a lot and are easy to solve. Starting small lets you see results quickly before investing more.",
+  "faq.q2": "Do we need someone technical on the team?",
+  "faq.a2": "No. We use no-code tools and train 1 or 2 people on your team so they can use, maintain and adjust what we build.",
+  "faq.q3": "Is it safe? What happens to my company's and my customers' data?",
+  "faq.a3": "We use business accounts that don't train models on your information, agree with you on what data stays out, and keep every account in your company's name. We sign a confidentiality agreement before seeing any data.",
+  "faq.q4": "Will AI replace my team?",
+  "faq.a4": "We use it to take repetitive tasks off your team's plate, like data entry, answering the same questions or putting reports together. That leaves more time to serve customers, sell and make decisions. People stay in charge and review what the AI does.",
+  "faq.q5": "How much does it cost?",
+  "faq.a5": "It depends on what you combine and the scope. After the first call we send you a fixed-price proposal, with no surprises. You can start with something small and grow based on results. We quote in US dollars, payable in Argentine pesos at the day's exchange rate, and we issue invoices.",
+  "faq.q6": "How long until we see results?",
+  "faq.a6": "A hands-on training leaves something working the same day. A typical implementation takes 2 to 8 weeks, depending on how many processes and systems need to be connected.",
+  "faq.q7": "Does it work with the tools we already use?",
+  "faq.a7": "In most cases, yes. We work with the spreadsheets, email, WhatsApp, CRM and management systems you already have. You don't need to switch systems to get started.",
+  "faq.q8": "What if the AI makes a mistake?",
+  "faq.a8": "That's why we design every solution with checks: the AI suggests and a person approves where needed, especially with customers or money. Before anything goes live, we test it with real cases from your company.",
+  "faq.q9": "We already use ChatGPT. Why do we need this?",
+  "faq.a9": "Most teams use it for one-off tasks, each person in their own way. We take it into complete processes, with clear rules and automations that run on their own.",
+  "faq.q10": "What happens when the project ends?",
+  "faq.a10": "Everything stays in your company's name and your team knows how to use it. If you want, we continue with monthly support for adjustments and improvements, with no minimum commitment. We work online with companies across Argentina.",
+  "close.title": "Start with 30 minutes and 3 concrete ideas",
+  "close.lead": "Tell us how your team works and we'll show you what AI can solve in your company. By video call, free and with no commitment.",
+  "footer.tagline": "AI training, consulting and implementation for small and midsize businesses.",
+  "footer.site": "Site",
+  "footer.contact": "Contact",
+  "footer.location": "Buenos Aires, Argentina",
+  "footer.legal": "Legal",
+  "footer.terms": "Terms and conditions",
+  "footer.privacy": "Privacy policy",
+  "footer.rights": "© 2026 Envión. All rights reserved.",
+  "footer.made": "Made in Argentina"
+};
+
+/* Textos que arma el código (formulario), en los dos idiomas */
+const UI = {
+  es: { sending: "Enviando...", sent: "¡Gracias! Te vamos a escribir pronto.", failed: "No se pudo enviar. Probá de nuevo o escribinos a ", mailOpened: "Se abrió tu correo con la consulta lista para enviar.", subject: "Consulta desde la web: ",
+        name: "Nombre", company: "Empresa", phone: "Teléfono", industry: "Rubro", size: "Personas", priority: "Quiere resolver primero", source: "Nos conoció por", message: "Mensaje" },
+  en: { sending: "Sending...", sent: "Thanks! We'll be in touch soon.", failed: "It couldn't be sent. Try again or write to us at ", mailOpened: "Your email app opened with the inquiry ready to send.", subject: "Website inquiry: ",
+        name: "Name", company: "Company", phone: "Phone", industry: "Industry", size: "People", priority: "Wants to solve first", source: "Heard about us via", message: "Message" }
+};
+
+/* Cambio de idioma: guarda el español original la primera vez y alterna con EN */
+let lang = "es";
+const original = new Map();
+const metaDesc = document.querySelector('meta[name="description"]');
+const ES_META = { title: document.title, desc: metaDesc.content };
+function applyLang(next) {
+  lang = next === "en" ? "en" : "es";
+  document.documentElement.lang = lang === "en" ? "en" : "es-AR";
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    if (!original.has(el)) original.set(el, el.innerHTML);
+    el.innerHTML = lang === "en" ? (EN[el.dataset.i18n] ?? original.get(el)) : original.get(el);
+  });
+  document.querySelectorAll("[data-i18n-attr]").forEach(el => {
+    el.dataset.i18nAttr.split(";").forEach(pair => {
+      const [attr, key] = pair.split(":");
+      const store = "i18nOrig" + attr.replace(/(^|-)(\w)/g, (m, d, c) => c.toUpperCase());
+      if (!(store in el.dataset)) el.dataset[store] = el.getAttribute(attr) ?? "";
+      el.setAttribute(attr, lang === "en" ? (EN[key] ?? el.dataset[store]) : el.dataset[store]);
+    });
+  });
+  document.title = lang === "en" ? EN["meta.title"] : ES_META.title;
+  metaDesc.content = lang === "en" ? EN["meta.desc"] : ES_META.desc;
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  formStatus.textContent = "";
+  try { localStorage.setItem("envion-lang", lang); } catch {}
+}
+document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => applyLang(b.dataset.lang)));
+
+document.querySelectorAll('[data-link="agenda"]').forEach(a => {
+  if (CONFIG.agenda) { a.href = CONFIG.agenda; a.target = "_blank"; a.rel = "noopener"; }
+  else { a.href = "#contacto"; }
+  a.addEventListener("click", () => { if (CONFIG.agenda && window.fbq) fbq("track", "Contact"); });
+});
+document.querySelectorAll('[data-link="email"]').forEach(a => { a.href = "mailto:" + CONFIG.email; });
+document.querySelectorAll('[data-text="email"]').forEach(el => { el.textContent = CONFIG.email; });
+
+/* Formulario de contacto */
+const form = document.getElementById("contact-form");
+const formStatus = form.querySelector(".form-status");
+const formBtn = form.querySelector('button[type="submit"]');
+function setStatus(text, ok) { formStatus.textContent = text; formStatus.classList.toggle("ok", !!ok); }
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!form.reportValidity()) return;
+  const data = new FormData(form);
+  data.append("idioma", lang);
+  const ui = UI[lang];
+  if (CONFIG.formulario) {
+    formBtn.disabled = true;
+    setStatus(ui.sending);
+    try {
+      // Se manda como formulario web común (URLSearchParams): así lo lee el script de Google (automatizaciones/formulario-a-sheets.gs)
+      const res = await fetch(CONFIG.formulario, { method: "POST", body: new URLSearchParams(data) });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) throw new Error(res.status);
+      form.reset();
+      setStatus(ui.sent, true);
+      if (window.fbq) fbq("track", "Lead"); // cuenta como cliente potencial en los anuncios de Meta
+    } catch {
+      setStatus(ui.failed + CONFIG.email + ".");
+    }
+    formBtn.disabled = false;
+  } else {
+    const body = [
+      ui.name + ": " + data.get("nombre"),
+      ui.company + ": " + data.get("empresa"),
+      "Email: " + data.get("email"),
+      ui.phone + ": " + (data.get("telefono") || "-"),
+      ui.industry + ": " + data.get("rubro"),
+      ui.size + ": " + data.get("tamano"),
+      ui.priority + ": " + (data.getAll("prioridad").join(", ") || "-"),
+      ui.source + ": " + (data.get("origen") || "-"),
+      "",
+      ui.message + ": " + (data.get("mensaje") || "-")
+    ].join("\n");
+    location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(ui.subject + data.get("empresa")) + "&body=" + encodeURIComponent(body);
+    setStatus(ui.mailOpened, true);
+  }
+});
+
+/* Idioma inicial: el de la dirección (?lang=en), el último elegido o español */
+let startLang = new URLSearchParams(location.search).get("lang");
+if (!startLang) { try { startLang = localStorage.getItem("envion-lang"); } catch {} }
+if (startLang === "en") applyLang("en");
+
+/* Borde de la barra al bajar, sin escuchar el evento scroll */
+const header = document.querySelector(".site-header");
+new IntersectionObserver(([e]) => header.classList.toggle("scrolled", !e.isIntersecting))
+  .observe(document.querySelector(".nav-sentinel"));
+
+/* Aparición de secciones al entrar en pantalla */
+const revealer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); revealer.unobserve(e.target); } });
+}, { rootMargin: "0px 0px -10% 0px" });
+document.querySelectorAll("[data-reveal]").forEach(el => revealer.observe(el));
+
+/* Qué hacemos: selector "¿Ya usan IA?". Muestra un camino por vez; con flechas se pasa de una opción a la otra */
+(() => {
+  const tabs = [...document.querySelectorAll('#que-hacemos [role="tab"]')];
+  function select(tab, focus) {
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).classList.toggle("is-active", on);
+    });
+    if (focus) tab.focus();
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => select(t));
+    t.addEventListener("keydown", e => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      e.preventDefault();
+      select(tabs[(i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length], true);
+    });
+  });
+})();
+
+/* Franja de logos: repite la lista hasta cubrir la pantalla, la duplica y la hace pasar a velocidad constante */
+(() => {
+  const marquee = document.querySelector(".marquee");
+  if (!marquee || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const track = marquee.querySelector(".marquee-track");
+  const items = [...track.children];
+  marquee.classList.add("is-moving");
+  while (track.scrollWidth < Math.max(screen.width, innerWidth) * 1.1) {
+    items.forEach(li => { const c = li.cloneNode(true); c.setAttribute("aria-hidden", "true"); track.appendChild(c); });
+  }
+  const copy = track.cloneNode(true);
+  copy.setAttribute("aria-hidden", "true");
+  marquee.appendChild(copy);
+  marquee.style.setProperty("--dur", Math.round(track.scrollWidth / 40) + "s");
+})();
+
+/* Carrusel de ejemplos: las flechas avanzan de a una tarjeta y se apagan en los extremos */
+const track = document.getElementById("ejemplos");
+const [prevBtn, nextBtn] = document.querySelectorAll(".carousel-btn");
+const smooth = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+function cardStep() {
+  const card = track.querySelector(".example");
+  return card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 16) : track.clientWidth;
+}
+function slide(dir) { track.scrollBy({ left: dir * cardStep(), behavior: smooth }); }
+function updateNav() {
+  prevBtn.disabled = track.scrollLeft <= 2;
+  nextBtn.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+}
+[prevBtn, nextBtn].forEach(b => b.addEventListener("click", () => slide(Number(b.dataset.dir))));
+track.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); slide(e.key === "ArrowRight" ? 1 : -1); }
+});
+track.addEventListener("scroll", updateNav, { passive: true });
+addEventListener("resize", updateNav);
+updateNav();
+</script>
+</body>
+</html>
